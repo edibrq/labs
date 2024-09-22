@@ -1,0 +1,17 @@
+<PASSWORD_START>
+arisha
+<PASSWORD_END>
+<HEADER_START>
+test/one/sample2.so
+10
+test/one/sample1.txt
+12
+test/two/sample2.s1
+11
+test/two/sample1.se
+11
+<HEADER_END>
+saple2.so
+sample1.txt
+sample1.s1
+sample1.se
