@@ -10,7 +10,7 @@ class PhoneNetwork:
         self.phone_locks = {p: threading.Lock() for p in participants}
         self.confirmation_source = {}
 
-    def call(self, caller, callee):
+    def make_call(self, caller, callee):
         acquired_caller = self.phone_locks[caller].acquire(blocking=False)
         acquired_callee = self.phone_locks[callee].acquire(blocking=False)
 
@@ -35,7 +35,7 @@ class PhoneNetwork:
 
         while True:
             for person in self.participants[1:]:
-                success = self.call('Poluekt', person)
+                success = self.make_call('Poluekt', person)
                 if success:
                     with self.confirmation_lock:
                         self.confirmation = True
@@ -56,7 +56,7 @@ class PhoneNetwork:
 
             random.shuffle(others)
             for other in others:
-                success = self.call(name, other)
+                success = self.make_call(name, other)
                 if success:
                     print(f"{name} разговаривает с {other}.")
                     with self.confirmation_lock:

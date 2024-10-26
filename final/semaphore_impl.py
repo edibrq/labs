@@ -10,11 +10,28 @@ class PhoneNetwork:
         self.phone_semaphores = {p: threading.Semaphore(1) for p in participants}
         self.confirmation_source = {}
 
-    def call(self, caller, callee):
-        acquired_caller = self.phone_semaphores[caller].acquire(blocking=False)
-        acquired_callee = self.phone_semaphores[callee].acquire(blocking=False)
+    """
+    Semaphore is like a phone
 
-        if acquired_caller and acquired_callee:
+    phone_semaphores:
+    {
+        'Poluekt' : Semaphore1,
+        'Grandma1': Semaphore2, 
+        'Grandma2': Semaphore3, 
+        'Mother': Semaphore4
+    }
+
+    phone_semaphores["Poluekt"] -> Semaphore1
+    """
+
+    def make_call(self, caller, callee):
+        caller_phone = self.phone_semaphores[caller] # caller "Grandma1" -> semaphore
+        calle_phone = self.phone_semaphores[callee]
+
+        acquired_caller = caller_phone.acquire(blocking=False) # занят ты нет?
+        acquired_callee = calle_phone.acquire(blocking=False)
+
+        if (acquired_caller and acquired_callee) == True:
             try:
                 print(f"{caller} звонит {callee}.")
                 time.sleep(random.uniform(0.1, 0.3))
@@ -35,7 +52,7 @@ class PhoneNetwork:
 
         while True:
             for person in self.participants[1:]:
-                success = self.call('Poluekt', person)
+                success = self.make_call('Poluekt', person)
                 if success:
                     self.confirmation_semaphore.acquire()
                     try:
@@ -63,7 +80,7 @@ class PhoneNetwork:
 
             random.shuffle(others)
             for other in others:
-                success = self.call(name, other)
+                success = self.make_call(name, other)
                 if success:
                     print(f"{name} разговаривает с {other}.")
                     self.confirmation_semaphore.acquire()
