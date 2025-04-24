@@ -6,6 +6,7 @@ class PhoneNetwork:
     def __init__(self, participants):
         self.participants = participants
         self.confirmation = False
+
         self.confirmation_lock = threading.Lock()
         self.phone_locks = {p: threading.Lock() for p in participants}
         self.confirmation_source = {}
@@ -86,6 +87,7 @@ for t in threads:
     t.start()
 
 for t in threads:
+    print("Hello world")
     t.join()
 
 print("Все участники получили подтверждение о Полуэкте.")
